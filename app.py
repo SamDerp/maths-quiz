@@ -1,15 +1,22 @@
-from random import * #This method is prefered over 'import random' as it means 'random' prefix isn't required
+from random import *
+
+
 def startup():
     print("This is a basic Maths quiz, there will be 10 questions, answer each question, at the end you will get a score out of 10.\n\n")
-    quizOrQuit = input("Do you wish to participate? (Y/N)")
-    if quizOrQuit == "Y":
+    while True:
+        quizOrQuit = input("Do you wish to participate? (Y/N)")
+        if quizOrQuit.lower() not in ("yesno"):
+            print("Not an appropriate choice.")
+        else:
+            break
+    if quizOrQuit.lower() in "yes":
         mathsQuiz()
     else:
         quit()
-    
-    
+
+
 def mathsQuiz():
-    studentName = input("What is your name? ")
+    studentName = str(input("What is your name? "))
     studentScore = 0
     questionNumber = 1
     while questionNumber != 11:
@@ -17,7 +24,7 @@ def mathsQuiz():
         randomNumber1 = randint(0,10)
         randomNumber2 = randint(0,10)
         randomSign = choice(["+", "-", "*"])
-        print("What is " + str(randomNumber1) + " " + randomSign + " " + str(randomNumber2)+"?")#Changing randomNumber2 to a string, to make output have a questionmark at the end of the number, not a space inbetween 
+        print("What is " + str(randomNumber1) + " " + randomSign + " " + str(randomNumber2)+"?")
         while True:
             try:
                 questionGuess = int(input("Enter your answer: "))
@@ -38,4 +45,6 @@ def mathsQuiz():
         print("You are currently on " + str(studentScore) + "/" + str(questionNumber))
         questionNumber += 1
     print(studentName + ", Your final score was " + str(studentScore) + " out of 10.")
+
+
 startup()
