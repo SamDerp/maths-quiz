@@ -1,5 +1,5 @@
 # Maths Quiz
-A simple python quiz using python3 and mong
+A simple python quiz using python3 and mongo
 
 ## Usage
 Currently command line based, moving towards GUI, run the `app.py` in IDLE or terminal to use
