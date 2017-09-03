@@ -7,9 +7,15 @@ while questionNumber != 11:
     print("\n\nQuestion No." + str(questionNumber))
     randomNumber1 = randint(0,10)
     randomNumber2 = randint(0,10)
-    questionAnswer = randomNumber1 + randomNumber2
-    print("What is " + str(randomNumber1) + " + " + str(randomNumber2)+"?")#Changing randomNumber2 to a string, to make output have a questionmark at the end of the number, not a space inbetween 
+    randomSign = choice(["+", "-", "*"])
+    print("What is " + str(randomNumber1) + " " + randomSign + " " + str(randomNumber2)+"?")#Changing randomNumber2 to a string, to make output have a questionmark at the end of the number, not a space inbetween 
     questionGuess = int(input("Enter your answer: "))
+    if randomSign == "+":
+        questionAnswer = randomNumber1 + randomNumber2
+    elif randomSign == "-":
+        questionAnswer = randomNumber1 - randomNumber2
+    else:
+        questionAnswer = randomNumber1 * randomNumber2
     if questionGuess == questionAnswer:
         print("Correct. ")
         studentScore += 1
@@ -30,8 +36,11 @@ print(studentName + ", Your final score was " + str(studentScore) + " out of 10.
 
 
 '''
+Version 1.1 Goals
+Get subtraction and multiplication working, have it choose randomly between multiplication, addition, and subtraction.
 Version 1.0 Goals
 Get basic maths addition quiz working;
 10 random addition questions, and return a final score out of 10.
 Ask for students name
 '''
+
