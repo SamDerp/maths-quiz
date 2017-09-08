@@ -1,5 +1,7 @@
 from random import *
 from operator import *
+from threading import *
+from subprocess import *
 
 student_users = {}
 
@@ -85,6 +87,14 @@ class MathsQuiz(object):
             print(
                 "Incorrect."
             )
+
+
+def mongod_startup():
+    call("mongodb-startup.bat")
+
+
+mongodStartup = Thread(target=mongod_startup)
+mongodStartup.start()
 
 
 def startup():
