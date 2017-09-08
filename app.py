@@ -93,8 +93,20 @@ def mongod_startup():
     call("mongodb-startup.bat")
 
 
-mongodStartup = Thread(target=mongod_startup)
-mongodStartup.start()
+def store_to_database(studentName):
+    client = MongoClient()
+    db = client.maths_quiz
+    collection = db.studentScores
+    postToDatabase = {"name": studentName,
+                      "score": student_users[studentName].studentScore}
+    db.posts.insert_one(postToDatabase)
+
+
+def read_from_database(studentName):
+    client = MongoClient()
+    db = client.maths_quiz
+    collection = db.studentScores
+    pprint(db.posts.find_one({"name": studentName}))
 
 
 def startup():
@@ -124,4 +136,6 @@ def startup():
         quit()
 
 
+mongodStartup = Thread(target=mongod_startup)
+mongodStartup.start()
 startup()
