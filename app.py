@@ -111,6 +111,13 @@ def read_from_database(studentName):
     pprint(db.posts.find_one({"name": studentName}))
 
 
+def delete_from_database(studentName):
+    client = MongoClient()
+    db = client.maths_quiz
+    collection = db.studentScores
+    db.posts.delete_one({"name": studentName})
+
+
 def startup():
     print(
         "This is a basic Maths quiz,"
