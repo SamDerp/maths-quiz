@@ -1,15 +1,48 @@
 from random import randint, choice
 from operator import add, mul, sub
+from uuid import uuid4
 
 
 class MathsQuiz(object):
-    def __init__(self, studentName):
-        self.studentName = studentName
+    def __init__(self):
+        self.studentName = 0
         self.randomNumber1 = 0
         self.randomNumber2 = 0
         self.randomSign = 0
         self.studentScore = 0
+        self.uniqueID = 0
 
+    def startup(self):
+        self.studentName = str(input(
+            "What is your name? "
+        )
+        )
+        while True:
+            # noinspection SpellCheckingInspection
+            haveUID = input(
+                "Do you have a UID? "
+                "It will be in the format: \n"
+                "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n(Y/N): "
+            ).lower()
+            if haveUID not in "yesno":
+                print(
+                    "Not a valid input."
+                )
+            else:
+                break
+        if haveUID in "yes":
+            self.uniqueID = input(
+                "Please input your UID correctly with no spaces. "
+            )
+        else:
+            self.uniqueID = uuid4()
+            print(
+                "This is your UID."
+                "You will need it to log back into your account."
+                "So write it down."
+            )
+        self.start_quiz()
+        
     def start_quiz(self):
         questionNumber = 0
         while True:
