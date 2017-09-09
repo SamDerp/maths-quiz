@@ -118,6 +118,11 @@ def delete_from_database(studentName):
     db.posts.delete_one({"name": studentName})
 
 
+def delete_entire_database():
+    client = MongoClient()
+    client.db.command("dropDatabase")
+
+
 def startup():
     print(
         "This is a basic Maths quiz,"
