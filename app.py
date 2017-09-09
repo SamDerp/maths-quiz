@@ -118,6 +118,13 @@ def delete_from_database(studentName):
     db.posts.delete_one({"name": studentName})
 
 
+def overwrite_score_from_database(studentName, studentScore):
+    client = MongoClient()
+    db = client.maths_quiz
+    collection = db.studentScores
+    db.posts.update({"name": studentName}, {'$set': {'score': studentScore}})
+
+
 def delete_entire_database():
     client = MongoClient()
     client.db.command("dropDatabase")
