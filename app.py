@@ -107,40 +107,18 @@ class Mongo(object):
                           "score": student_users[self.studentName].studentScore}
         self.db.posts.insert_one(postToDatabase)
 
+    def read_from_database(self):
+        pprint(self.db.posts.find_one({"name": self.studentName}))
 
-def store_to_database(studentName):
-    client = MongoClient()
-    db = client.maths_quiz
-    collection = db.studentScores
-    postToDatabase = {"name": studentName,
-                      "score": student_users[studentName].studentScore}
-    db.posts.insert_one(postToDatabase)
+    def delete_from_database(self):
+        self.db.posts.delete_one({"name": self.studentName})
 
+    def overwrite_score_from_database(self):
+        self.db.posts.update({"name": self.studentName},
+                             {"$set": {"score": student_users[self.studentName].studentScore}})
 
-def read_from_database(studentName):
-    client = MongoClient()
-    db = client.maths_quiz
-    collection = db.studentScores
-    pprint(db.posts.find_one({"name": studentName}))
-
-
-def delete_from_database(studentName):
-    client = MongoClient()
-    db = client.maths_quiz
-    collection = db.studentScores
-    db.posts.delete_one({"name": studentName})
-
-
-def overwrite_score_from_database(studentName, studentScore):
-    client = MongoClient()
-    db = client.maths_quiz
-    collection = db.studentScores
-    db.posts.update({"name": studentName}, {'$set': {'score': studentScore}})
-
-
-def delete_entire_database():
-    client = MongoClient()
-    client.db.command("dropDatabase")
+    def delete_entire_database(self):
+        self.client.db.command("dropDatabase")
 
 
 def startup():
