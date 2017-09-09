@@ -7,7 +7,7 @@ student_users = {}
 
 
 def mongod_startup():
-    call("mongodb-startup.bat")
+    call("mongodb_startup.bat")
 
 
 def startup():
