@@ -3,7 +3,7 @@ from subprocess import *
 from pymongo import *
 from pprint import *
 from Classes.MathsQuiz import MathsQuiz
-
+from Classes.Mongo import Mongo
 
 student_users = {}
 
