@@ -95,6 +95,19 @@ def mongod_startup():
     call("mongodb-startup.bat")
 
 
+class Mongo(object):
+    def __init__(self, studentName):
+        self.studentName = studentName
+        self.client = MongoClient()
+        self.db = self.client.maths_quiz
+        self.collection = self.db.studentScores
+
+    def store_to_database(self):
+        postToDatabase = {"name": self.studentName,
+                          "score": student_users[self.studentName].studentScore}
+        self.db.posts.insert_one(postToDatabase)
+
+
 def store_to_database(studentName):
     client = MongoClient()
     db = client.maths_quiz
