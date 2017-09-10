@@ -36,11 +36,11 @@ class MathsQuiz(object):
             )
         else:
             self.uniqueID = uuid4()
-            print(self.uniqueID, 
-                "\nThis is your UID."
-                "You will need it to log back into your account."
-                " So write it down."
-            )
+            print(self.uniqueID,
+                  "\nThis is your UID."
+                  "You will need it to log back into your account."
+                  " So write it down."
+                  )
         self.start_quiz()
         
     def start_quiz(self):
