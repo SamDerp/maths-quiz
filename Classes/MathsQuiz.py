@@ -42,7 +42,7 @@ class MathsQuiz(object):
                   " So write it down."
                   )
         self.start_quiz()
-        
+
     def start_quiz(self):
         questionNumber = 0
         while True:

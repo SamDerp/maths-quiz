@@ -7,7 +7,10 @@ class AdminMongo(object):
         self.client = MongoClient()
 
     def delete_entire_database(self):
-        deletedDatabase = str(input("What is the name of the database you wish to delete: "))
+        deletedDatabase = str(input(
+            "What is the name of the database you wish to delete: "
+        )
+        )
         self.client.drop_database(deletedDatabase)
 
     def list_all_databases(self):
