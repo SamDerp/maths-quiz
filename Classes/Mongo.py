@@ -3,26 +3,26 @@ from pprint import pprint
 
 
 class Mongo(object):
-    def __init__(self, studentName):
+    def __init__(self, uniqueID, studentName, studentScore):
+        self.uniqueID = uniqueID
         self.studentName = studentName
+        self.studentScore = studentScore
         self.client = MongoClient()
         self.db = self.client.maths_quiz
         self.collection = self.db.studentScores
 
     def store_to_database(self):
         postToDatabase = {"name": self.studentName,
-                          "score": student_users[self.studentName].studentScore}
+                          "unique_id": self.uniqueID,
+                          "score": self.studentScore}
         self.db.posts.insert_one(postToDatabase)
 
     def read_from_database(self):
-        pprint(self.db.posts.find_one({"name": self.studentName}))
+        pprint(self.db.posts.find_one({"name": self.studentName}, {"_id": False}))
 
     def delete_from_database(self):
         self.db.posts.delete_one({"name": self.studentName})
 
     def overwrite_score_from_database(self):
-        self.db.posts.update({"name": self.studentName},
-                             {"$set": {"score": student_users[self.studentName].studentScore}})
-
-    def delete_entire_database(self):
-        self.client.db.command("dropDatabase")
+        self.db.posts.update({"unique_id": self.uniqueID},
+                             {"$set": {"score": self.studentScore}})
