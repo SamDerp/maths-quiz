@@ -1,5 +1,8 @@
 from threading import Thread
 from subprocess import call
+from Classes.MathsQuiz import MathsQuiz
+from Classes.Mongo import Mongo
+from Classes.AdminMongo import Admin Mongo
 
 
 class Startup(object):
