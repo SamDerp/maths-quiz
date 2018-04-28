@@ -11,6 +11,9 @@ class MathsQuiz(object):
         self.randomSign = 0
         self.studentScore = 0
         self.uniqueID = 0
+        self.maxAddition = 0
+        self.maxSubtraction = 0
+        self.maxMultiplication = 0
 
     def startup(self):
         self.studentName = str(input(
@@ -59,12 +62,59 @@ class MathsQuiz(object):
                     "That is an invalid input. "
                 )
                 continue
+        while True:
+
+            # noinspection PyBroadException
+            try:
+                self.maxAddition = int(input(
+                    "Enter the maximum score for addition questions. "
+                )
+                )
+                break
+            except:
+                print(
+                    "That is an invalid input. "
+                )
+                continue
+        while True:
+
+            # noinspection PyBroadException
+            try:
+                self.maxSubtraction = int(input(
+                    "Enter the maximum score for subtraction questions. "
+                )
+                )
+                break
+            except:
+                print(
+                    "That is an invalid input. "
+                )
+                continue
+        while True:
+
+            # noinspection PyBroadException
+            try:
+                self.maxMultiplication = int(input(
+                    "Enter the maximum score for multiplication questions. "
+                )
+                )
+                break
+            except:
+                print(
+                    "That is an invalid input. "
+                )
+                continue
         for questionNumber in range(1, maxQuestions + 1):
-            self.ask_question()
+            if self.maxMultiplication >= self.studentScore >= self.maxSubtraction:
+                self.ask_multiplication()
+            elif self.maxSubtraction >= self.studentScore >= self.maxAddition:
+                self.ask_subtraction()
+            else:
+                if self.studentScore <= self.maxAddition:
+                    self.ask_addition()
             print(
-                "\nYou are currently on {} / {}"
+                "\nYou are currently on {} points."
                 .format(self.studentScore,
-                        questionNumber
                         )
             )
         print(
@@ -78,22 +128,21 @@ class MathsQuiz(object):
     def random_generator(self):
         self.randomNumber1 = randint(0, 10)
         self.randomNumber2 = randint(0, 10)
-        self.randomSign = choice(["+",
-                                  "-",
-                                  "*"])
+        #self.randomSign = choice(["+",
+        #                          "-",
+        #                          "*"])
 
-    def ask_question(self):
+    def ask_addition(self):
         self.random_generator()
-        operator = {"+": add,
-                    "-": sub,
-                    "*": mul}
+        #operator = {"+": add,
+        #            "-": sub,
+        #            "*": mul}
         while True:
             # noinspection PyBroadException
             try:
                 studentGuess = int(input(
-                    "Enter the answer to {} {} {}\n"
+                    "Enter the answer to {} + {}\n"
                     .format(self.randomNumber1,
-                            self.randomSign,
                             self.randomNumber2
                             )
                 )
@@ -105,9 +154,7 @@ class MathsQuiz(object):
                 )
                 continue
         # noinspection PyTypeChecker
-        if studentGuess == operator[self.randomSign](self.randomNumber1,
-                                                     self.randomNumber2
-                                                     ):
+        if studentGuess == add(self.randomNumber1,self.randomNumber2):
             print(
                 "Correct."
             )
@@ -116,3 +163,74 @@ class MathsQuiz(object):
             print(
                 "Incorrect."
             )
+            self.studentScore -= 1
+
+    def ask_subtraction(self):
+        self.random_generator()
+        #operator = {"+": add,
+        #            "-": sub,
+        #            "*": mul}
+        while True:
+            # noinspection PyBroadException
+            try:
+                studentGuess = int(input(
+                    "Enter the answer to {} - {}\n"
+                    .format(self.randomNumber1,
+                            self.randomNumber2
+                            )
+                )
+                )
+                break
+            except:
+                print(
+                    "That is an invalid answer, try again."
+                )
+                continue
+        # noinspection PyTypeChecker
+        if studentGuess == sub(self.randomNumber1,self.randomNumber2):
+            print(
+                "Correct."
+            )
+            self.studentScore += 1
+        else:
+            print(
+                "Incorrect."
+            )
+            self.studentScore -= 1
+
+
+    def ask_multiplication(self):
+        self.random_generator()
+        #operator = {"+": add,
+        #            "-": sub,
+        #            "*": mul}
+        while True:
+            # noinspection PyBroadException
+            try:
+                studentGuess = int(input(
+                    "Enter the answer to {} * {}\n"
+                    .format(self.randomNumber1,
+                            self.randomNumber2
+                            )
+                )
+                )
+                break
+            except:
+                print(
+                    "That is an invalid answer, try again."
+                )
+                continue
+        # noinspection PyTypeChecker
+        if studentGuess == mul(self.randomNumber1,self.randomNumber2):
+            print(
+                "Correct."
+            )
+            self.studentScore += 1
+        else:
+            print(
+                "Incorrect."
+            )
+            self.studentScore -= 1
+
+
+
