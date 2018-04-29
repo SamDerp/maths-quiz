@@ -128,15 +128,9 @@ class MathsQuiz(object):
     def random_generator(self):
         self.randomNumber1 = randint(0, 10)
         self.randomNumber2 = randint(0, 10)
-        #self.randomSign = choice(["+",
-        #                          "-",
-        #                          "*"])
 
     def ask_addition(self):
         self.random_generator()
-        #operator = {"+": add,
-        #            "-": sub,
-        #            "*": mul}
         while True:
             # noinspection PyBroadException
             try:
@@ -167,9 +161,6 @@ class MathsQuiz(object):
 
     def ask_subtraction(self):
         self.random_generator()
-        #operator = {"+": add,
-        #            "-": sub,
-        #            "*": mul}
         while True:
             # noinspection PyBroadException
             try:
@@ -198,12 +189,8 @@ class MathsQuiz(object):
             )
             self.studentScore -= 1
 
-
     def ask_multiplication(self):
         self.random_generator()
-        #operator = {"+": add,
-        #            "-": sub,
-        #            "*": mul}
         while True:
             # noinspection PyBroadException
             try:
@@ -232,5 +219,7 @@ class MathsQuiz(object):
             )
             self.studentScore -= 1
 
+
+    
 
 
