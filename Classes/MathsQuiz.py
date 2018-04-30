@@ -110,14 +110,12 @@ class MathsQuiz(object):
         self.question_checker()
         
     def question_checker(self):
-        if self.questionNumber == self.maxQuestions:
-            print(
-                "{} , your final score was {}"
-                .format(self.studentName,
-                        self.studentScore
-                        )
-            )
-
+        if self.questionNumber == self.maxQuestions - 1:
+            try:
+                self.root.destroy()
+                print("{} , your final score was {}".format(self.studentName,self.studentScore))
+            except:
+                pass
         else:
             self.symbol_checker()
             self.ask_question()
@@ -164,19 +162,19 @@ class MathsQuiz(object):
         self.question_checker()
 
     def generate_calculator(self):
-        root = Tk() 
-        root.title("Maths Quiz")
+        self.root = Tk() 
+        self.root.title("Maths Quiz")
         self.mathsQuestion = StringVar()
         self.studentInput = IntVar()
         correct = StringVar()
         self.ask_question()
-        mathsQuestionLabel = Label(root, textvariable=self.mathsQuestion, height=2, width=20)
+        mathsQuestionLabel = Label(self.root, textvariable=self.mathsQuestion, height=2, width=20)
         mathsQuestionLabel.grid(row=1, column=0, sticky=N)
-        studentInputLabel = Label(root, textvariable=self.studentInput, height=2, width=20)
+        studentInputLabel = Label(self.root, textvariable=self.studentInput, height=2, width=20)
         studentInputLabel.grid(row=2, column=0, sticky=N)
-        Grid.rowconfigure(root, 0, weight=1) 
-        Grid.columnconfigure(root, 0, weight=1)
-        frame=Frame(root)
+        Grid.rowconfigure(self.root, 0, weight=1) 
+        Grid.columnconfigure(self.root, 0, weight=1)
+        frame=Frame(self.root)
         frame.grid(row=0, column=0, sticky=N+S+E+W)
         rowIndex = 0 
         buttonText = 1 
@@ -210,6 +208,6 @@ class MathsQuiz(object):
                 btn.grid(row=5, column=1, sticky=N+S+E+W) 
                 btn['text'] ="0"
                 btn['command'] =lambda : self.studentInput.set(self.studentInput.get()*10)
-        root.mainloop()
+        self.root.mainloop()
 
 

@@ -34,7 +34,6 @@ class Startup(object):
                 break
         if quizOrQuit in "yes":
             self.MathsQuiz = MathsQuiz()
-            self.MathsQuiz.startup()
         else:
             quit()
 
