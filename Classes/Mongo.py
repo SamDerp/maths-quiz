@@ -21,7 +21,7 @@ class Mongo(object):
         pprint(self.collection.find_one({"unique_id": self.uniqueID}, {"_id": False}))
 
     def delete_from_database(self):
-        self.db.collection.delete_one({"name": self.uniqueID})
+        self.collection.delete_one({"unique_id": self.uniqueID})
 
     def delete_entire_database(self):
         self.client.drop_database("maths_quiz")
