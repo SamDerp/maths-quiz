@@ -3,10 +3,17 @@ from operator import add, mul, sub
 from uuid import uuid4
 from tkinter import *
 from tkinter import ttk
+from Classes.Mongo import Mongo
 
 class MathsQuiz(object):
     def __init__(self):
+        self.root = Tk() 
         self.studentName = 0
+        self.studentInput = IntVar()
+        self.mathsQuestion = StringVar()
+        self.operator = {"+": add,
+                         "-": sub,
+                         "*": mul}
         self.randomNumber1 = 0
         self.randomNumber2 = 0
         self.randomSign = 0
@@ -17,12 +24,8 @@ class MathsQuiz(object):
         self.maxAddition = 0
         self.maxSubtraction = 0
         self.maxMultiplication = 0
-        self.startup()
-    def startup(self):
-        self.studentName = str(input(
-            "What is your name? "
-        )
-        )
+        self.start_quiz()
+    def store_to_database(self):
         while True:
             # noinspection SpellCheckingInspection
             haveUID = input(
@@ -40,16 +43,23 @@ class MathsQuiz(object):
             self.uniqueID = input(
                 "Please input your UID correctly with no spaces. "
             )
+            studentRecord = Mongo(self.uniqueID, self.studentName, self.studentScore)
+            studentRecord.overwrite_score_from_database()
         else:
-            self.uniqueID = uuid4()
+            self.uniqueID = str(uuid4())
             print(self.uniqueID,
                   "\nThis is your UID."
                   "You will need it to log back into your account."
                   " So write it down."
                   )
-        self.start_quiz()
+            studentRecord = Mongo(self.uniqueID, self.studentName, self.studentScore)
+            studentRecord.store_to_database()
 
     def start_quiz(self):
+        self.studentName = str(input(
+            "What is your name? "
+        )
+        )
         while True:
 
             # noinspection PyBroadException
@@ -114,6 +124,7 @@ class MathsQuiz(object):
             try:
                 self.root.destroy()
                 print("{} , your final score was {}".format(self.studentName,self.studentScore))
+                self.store_to_database()
             except:
                 pass
         else:
@@ -134,11 +145,6 @@ class MathsQuiz(object):
     def ask_question(self):
         self.random_generator()
         self.symbol_checker()
-        self.studentGuess = IntVar()
-        self.addQuestion = StringVar()
-        self.operator = {"+": add,
-                         "-": sub,
-                         "*": mul}
         self.question = "Enter the answer to {} {} {}\n".format(self.randomNumber1, self.symbol, self.randomNumber2)
         self.mathsQuestion.set(self.question)
 
@@ -162,10 +168,7 @@ class MathsQuiz(object):
         self.question_checker()
 
     def generate_calculator(self):
-        self.root = Tk() 
         self.root.title("Maths Quiz")
-        self.mathsQuestion = StringVar()
-        self.studentInput = IntVar()
         correct = StringVar()
         self.ask_question()
         mathsQuestionLabel = Label(self.root, textvariable=self.mathsQuestion, height=2, width=20)

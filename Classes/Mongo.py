@@ -15,14 +15,23 @@ class Mongo(object):
         postToDatabase = {"name": self.studentName,
                           "unique_id": self.uniqueID,
                           "score": self.studentScore}
-        self.db.posts.insert_one(postToDatabase)
+        self.collection.insert_one(postToDatabase)
 
     def read_from_database(self):
-        pprint(self.db.posts.find_one({"name": self.studentName}, {"_id": False}))
+        pprint(self.collection.find_one({"unique_id": self.uniqueID}, {"_id": False}))
 
     def delete_from_database(self):
-        self.db.posts.delete_one({"name": self.studentName})
+        self.db.collection.delete_one({"name": self.uniqueID})
+
+    def delete_entire_database(self):
+        self.client.drop_database("maths_quiz")
+
+    def list_all_records(self):
+        for record in self.collection.find():
+            print(record)
 
     def overwrite_score_from_database(self):
-        self.db.posts.update({"unique_id": self.uniqueID},
+        self.db.collection.update({"unique_id": self.uniqueID},
                              {"$set": {"score": self.studentScore}})
+
+
