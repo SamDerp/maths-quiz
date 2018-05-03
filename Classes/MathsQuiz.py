@@ -5,7 +5,9 @@ from tkinter import *
 from tkinter import ttk
 from Classes.Mongo import Mongo
 
+
 class MathsQuiz(object):
+    
     def __init__(self):
         self.root = Tk() 
         self.studentName = 0
@@ -25,96 +27,61 @@ class MathsQuiz(object):
         self.maxSubtraction = 0
         self.maxMultiplication = 0
         self.start_quiz()
+
     def store_to_database(self):
         while True:
-            # noinspection SpellCheckingInspection
-            haveUID = input(
-                "Do you have a UID? "
-                "It will be in the format: \n"
-                "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n(Y/N): "
-            ).lower()
-            if haveUID not in "yesno":
-                print(
-                    "Not a valid input."
-                )
-            else:
+            while True:
+                haveUID = input("Do you have a UID? It will be in the format: \nxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n(Y/N): ").lower()
+                if haveUID not in "yes":
+                    if haveUID not in "no":
+                        print("Invalid input, please try again.")
+                    else:
+                        break
+                else:
+                    break
+            if haveUID != "" and haveUID  in "yes":
+                self.uniqueID = input("Please input your UID correctly with no spaces. ")
+                studentRecord = Mongo(self.uniqueID, self.studentName, self.studentScore)
+                studentRecord.overwrite_score_from_database()
                 break
-        if haveUID in "yes":
-            self.uniqueID = input(
-                "Please input your UID correctly with no spaces. "
-            )
-            studentRecord = Mongo(self.uniqueID, self.studentName, self.studentScore)
-            studentRecord.overwrite_score_from_database()
-        else:
-            self.uniqueID = str(uuid4())
-            print(self.uniqueID,
-                  "\nThis is your UID."
-                  "You will need it to log back into your account."
-                  " So write it down."
-                  )
-            studentRecord = Mongo(self.uniqueID, self.studentName, self.studentScore)
-            studentRecord.store_to_database()
+            elif haveUID != "" and haveUID  in "no":
+                self.uniqueID = str(uuid4())
+                print(self.uniqueID,"\nThis is your UID. You will need it to log back into your account. So write it down.")
+                studentRecord = Mongo(self.uniqueID, self.studentName, self.studentScore)
+                studentRecord.store_to_database()
+                break
+            else:
+                print("Invalid input, please try again.")
 
     def start_quiz(self):
-        self.studentName = str(input(
-            "What is your name? "
-        )
-        )
+        self.studentName = str(input("What is your name? "))
         while True:
-
-            # noinspection PyBroadException
             try:
-                self.maxQuestions = int(input(
-                    "Enter the number of questions in integer form. "
-                )
-                )
+                self.maxQuestions = int(input("Enter the number of questions in integer form. "))
                 break
             except:
-                print(
-                    "That is an invalid input. "
-                )
+                print("That is an invalid input. ")
                 continue
         while True:
-
-            # noinspection PyBroadException
             try:
-                self.maxAddition = int(input(
-                    "Enter the maximum score for addition questions. "
-                )
-                )
+                self.maxAddition = int(input("Enter the maximum score for addition questions. "))
                 break
             except:
-                print(
-                    "That is an invalid input. "
-                )
+                print("That is an invalid input. ")
                 continue
         while True:
-
-            # noinspection PyBroadException
             try:
-                self.maxSubtraction = int(input(
-                    "Enter the maximum score for subtraction questions. "
-                )
-                )
+                self.maxSubtraction = int(input("Enter the maximum score for subtraction questions. "))
                 break
             except:
-                print(
-                    "That is an invalid input. "
-                )
+                print("That is an invalid input. ")
                 continue
         while True:
-
-            # noinspection PyBroadException
             try:
-                self.maxMultiplication = int(input(
-                    "Enter the maximum score for multiplication questions. "
-                )
-                )
+                self.maxMultiplication = int(input("Enter the maximum score for multiplication questions. "))
                 break
             except:
-                print(
-                    "That is an invalid input. "
-                )
+                print("That is an invalid input. ")
                 continue
         self.generate_calculator()
         self.question_checker()
@@ -155,14 +122,10 @@ class MathsQuiz(object):
     def check_math(self):
         print(self.studentInput.get())
         if self.studentInput.get() == self.operator[self.symbol](self.randomNumber1, self.randomNumber2):
-            print(
-                "Correct."
-            )
+            print("Correct.")
             self.studentScore += 1
         else:
-            print(
-                "Incorrect."
-            )
+            print("Incorrect.")
             self.studentScore -= 1
         self.studentInput.set(0)
         self.question_checker()
@@ -185,7 +148,6 @@ class MathsQuiz(object):
             Grid.rowconfigure(frame, rowIndex, weight=1) 
             rowIndex = rowIndex + 1
             colIndex = 0 
-            
             while colIndex != 3: 
                 Grid.columnconfigure(frame, colIndex, weight=1) 
                 btn = ttk.Button(frame) 
@@ -194,19 +156,15 @@ class MathsQuiz(object):
                 btn['text'] =buttonText
                 btn['command'] =lambda x=buttonText: self.studentInput.set(self.studentInput.get()*10 + x)
                 buttonText = buttonText + 1
-
                 if buttonText ==11: 
                     btn['text'] ="-"
                     btn['command'] =lambda : self.studentInput.set(-self.studentInput.get())
-
                 if buttonText ==12: 
                     btn['text'] ="⌫"
                     btn['command'] =lambda : self.studentInput.set(0)
-
                 if buttonText == 13:
                     btn['text'] ="↵"
                     btn['command'] =lambda : self.check_math()
-
                 btn = ttk.Button(frame) 
                 btn.grid(row=5, column=1, sticky=N+S+E+W) 
                 btn['text'] ="0"
